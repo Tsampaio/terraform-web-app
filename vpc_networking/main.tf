@@ -30,3 +30,23 @@ resource "aws_subnet" "module_public_subnet_2" {
     Name = "Public-Subnet-2"
   }
 }
+
+resource "aws_subnet" "module_private_subnet_1" {
+  cidr_block        = var.private_subnet_1_cidr
+  vpc_id            = aws_vpc.module_vpc.id
+  availability_zone = "${var.region}a"
+
+  tags {
+    Name = "Private-Subnet-1"
+  }
+}
+
+resource "aws_subnet" "module_private_subnet_2" {
+  cidr_block        = var.private_subnet_2_cidr
+  vpc_id            = aws_vpc.module_vpc.id
+  availability_zone = "${var.region}b"
+
+  tags {
+    Name = "Private-Subnet-2"
+  }
+}
