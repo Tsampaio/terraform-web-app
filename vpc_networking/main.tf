@@ -84,3 +84,27 @@ resource "aws_route_table_association" "private_subnet_2_association" {
   route_table_id = aws_route_table.private_route_table.id
   subnet_id = aws_subnet.module_private_subnet_2.id
 }
+
+resource "aws_eip" "elastic_ip_for_nat_gw" {
+  vpc = true
+  associate_with_private_ip = var.eip_association_address
+
+  tags {
+    Name = "Production-EIP"
+  }
+}
+
+resource "aws_nat_gateway" "nat_gateway" {
+  allocation_id = aws_eip.elastic_ip_for_nat_gw.id
+  subnet_id = aws_subnet.module_public_subnet_1.id
+
+  tags {
+    Name = "Production-NAT-GW"
+  }
+}
+
+resource "aws_route" "nat_gateway_route" {
+  route_table_id = aws_route_table.private_route_table.id
+  nat_gateway_id = aws_nat_gateway.nat_gateway.id
+  destination_cidr_block = "0.0.0.0/0"
+}
