@@ -31,9 +31,24 @@ resource "aws_instance" "my-first-ec2-instance" {
   instance_type = var.ec2_instance_type
   key_name = var.ec2_keypair
   security_groups = [aws_security_group.ec2-security-group.id]
-  subnet_id = aws_subnet.module_public_subnet.id
+  subnet_id = aws_subnet.subnet_id
 
   # user_data = "" our custom script to run when the instance is created
+
+  # connection {
+  #   type = "ssh"
+  #   host = self.public_ip
+  #   user = "ec2-user"
+  #   private_key = file(var.private_key_path)
+  # }
+
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "sudo yum install nginx -y",
+  #     "sudo service nginx start"
+  #   ]
+  # }
+
 }
 
 resource "aws_security_group" "ec2-security-group" {
@@ -42,9 +57,9 @@ resource "aws_security_group" "ec2-security-group" {
 
   ingress {
     from_port = 0
-    protocol = "-1" //all traffic from aws
+    protocol = "-1" //all protocol TCP etc...
     to_port = 0
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.1.0/24"]
   }
 
   egress {
@@ -53,4 +68,8 @@ resource "aws_security_group" "ec2-security-group" {
     to_port = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+output "aws_instance_public_dns" {
+  value = aws_instance.my-first-ec2-instance.public_dns
 }

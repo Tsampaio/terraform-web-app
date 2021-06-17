@@ -4,4 +4,5 @@ variable "region" {
 
 variable "vpc_cidr_block" {}
 variable "ec2_keypair" {}
-variable ec2_instance_type {}
+variable "ec2_instance_type" {}
+variable "subnet_id" { }
