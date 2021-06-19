@@ -8,7 +8,7 @@ module "vpc_networking" {
 
 module "ec2-private" {
   source            = "./ec2"
-  subnet_id         = module.vpc_networking.private_subnet_id
+  subnet_id         = module.vpc_networking.private_subnets[0].id
   vpc_cidr_block    = var.vpc_cidr_block
   ec2_instance_type = var.ec2_instance_type
   ec2_keypair       = var.ec2_keypair
@@ -16,7 +16,7 @@ module "ec2-private" {
 
 module "ec2-public" {
   source            = "./ec2"
-  subnet_id         = module.vpc_networking.public_subnet_id
+  subnet_id         = module.vpc_networking.public_subnets[0].id
   vpc_cidr_block    = var.vpc_cidr_block
   ec2_instance_type = var.ec2_instance_type
   ec2_keypair       = var.ec2_keypair

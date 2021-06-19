@@ -105,18 +105,10 @@ output "vpc_cidr" {
   value = aws_vpc.module_vpc.cidr_block
 }
 
-output "public_subnet_cidr" {
-  value = aws_subnet.module_public_subnet.cidr_block
+output "public_subnets" {
+  value = aws_subnet.module_public_subnet
 }
 
-output "private_subnet_cidr" {
-  value = aws_subnet.module_private_subnet.cidr_block
-}
-
-output "public_subnet_id" {
-  value = aws_subnet.module_public_subnet[0].id
-}
-
-output "private_subnet_id" {
-  value = aws_subnet.module_private_subnet[0].id
+output "private_subnets" {
+  value = aws_subnet.module_private_subnet
 }

@@ -31,7 +31,7 @@ resource "aws_instance" "my-first-ec2-instance" {
   instance_type = var.ec2_instance_type
   key_name = var.ec2_keypair
   security_groups = [aws_security_group.ec2-security-group.id]
-  subnet_id = aws_subnet.subnet_id
+  subnet_id = var.subnet_id
 
   # user_data = "" our custom script to run when the instance is created
 
