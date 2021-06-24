@@ -1,5 +1,6 @@
 data "aws_ami" "ubuntu_latest" {
-  owners      = ["099720109477"]
+  name_regex = "amzn2-ami-hvm-2\\.0\\.20210525\\.0-x86_64-gp2"
+  owners     = ["amazon"]
   most_recent = true
 
   filter {
@@ -34,7 +35,7 @@ resource "aws_security_group" "ec2-security-group" {
 
   ingress {
     from_port   = 0
-    protocol    = "-1"
+    protocol    = "-1" //all protocols
     to_port     = 0
     cidr_blocks = [var.vpc_cidr_block]
   }

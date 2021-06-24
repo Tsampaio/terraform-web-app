@@ -33,3 +33,10 @@ module "ec2-public" {
   instance_name               = "public"
   vpc_id                      = module.vpc_networking.vpc_id
 }
+
+// terraform init
+// terraform plan --var-file=production.tfvars
+// terraform apply --var-file=production.tfvars
+// ssh ec2-user@35.177.197.241 -i my-first-ec2-instance.pem to SHH login
+// terraform destroy --var-file=production.tfvars
+// terraform fmt -recursive to format the code at top level of repo

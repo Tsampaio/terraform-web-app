@@ -12,8 +12,8 @@ ec2_keypair = "my-first-ec2-instance"
 
 ec2_instance_type = "t2.micro"
 
-ssh_allowed_ip = "73.126.101.206/32"
+ssh_allowed_ip = "86.11.241.39/32"
 
-region = "us-east-1"
+region = "eu-west-2"
 
 env_code = "prod"
