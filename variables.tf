@@ -12,4 +12,4 @@ variable "ssh_allowed_ip" {}
 
 variable "region" {}
 
-variable env_code {}
+variable "env_code" {}

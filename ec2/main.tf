@@ -1,12 +1,19 @@
 data "aws_ami" "ubuntu_latest" {
-  name_regex = "amzn2-ami-hvm-2\\.0\\.20210525\\.0-x86_64-gp2"
-  owners     = ["amazon"]
+  name_regex  = "amzn2-ami-hvm-2\\.0\\.20210525\\.0-x86_64-gp2"
+  owners      = ["amazon"]
   most_recent = true
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo apt update -y
+              sudo apt install apache2 -y
+              sudo systemctl start apache2
+              EOF
 }
 
 resource "aws_instance" "my-first-ec2-instance" {
