@@ -8,12 +8,6 @@ data "aws_ami" "ubuntu_latest" {
     values = ["hvm"]
   }
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo apt update -y
-              sudo apt install apache2 -y
-              sudo systemctl start apache2
-              EOF
 }
 
 resource "aws_instance" "my-first-ec2-instance" {
@@ -23,6 +17,17 @@ resource "aws_instance" "my-first-ec2-instance" {
   security_groups             = [aws_security_group.ec2-security-group.id]
   subnet_id                   = var.subnet_id
   associate_public_ip_address = var.associate_public_ip_address
+
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo apt update -y
+              sudo apt install apache2 -y
+              sudo apt install httpd
+              sudo systemctl start apache2
+              sudo apt install git-all
+              cd /var/www
+              git clone https://github.com/gabrielecirulli/2048
+              EOF
 
   tags = {
     Name = var.instance_name

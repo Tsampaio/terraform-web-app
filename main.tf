@@ -34,6 +34,20 @@ module "ec2-public" {
   vpc_id                      = module.vpc_networking.vpc_id
 }
 
+module "auto_scale_module" {
+  source                    = "./auto_scale_group"
+  autoscaling_group_name    = var.autoscaling_group_name
+  load_balancers            = var.load_balancers
+  max_size_group            = var.max_size_group
+  min_size_group            = var.min_size_group
+  health_check_grace_period = var.health_check_grace_period
+  health_check_type         = var.health_check_type
+  desired_capacity          = var.desired_capacity
+  force_delete              = var.force_delete
+}
+
+
+
 // terraform init
 // terraform plan --var-file=production.tfvars
 // terraform apply --var-file=production.tfvars

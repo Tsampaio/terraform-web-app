@@ -28,4 +28,5 @@ health_check_type = "ELB"
 
 desired_capacity = 2
 
+force_delete = true
 

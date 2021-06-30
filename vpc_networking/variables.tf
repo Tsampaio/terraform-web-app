@@ -4,4 +4,4 @@ variable "public_subnet" {}
 
 variable "private_subnet" {}
 
-variable env_code {}
+variable "env_code" {}
