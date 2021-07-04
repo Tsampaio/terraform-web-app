@@ -20,13 +20,13 @@ env_code = "prod"
 
 autoscaling_group_name = "apache_web_app_autoscaling_group"
 
+min_size_group = 1
+
+max_size_group = 2
+
 load_balancers = "web_app_load_balancer"
 
-health_check_grace_period = 300
-
-health_check_type = "ELB"
-
-desired_capacity = 2
-
 force_delete = true
+
+propagate_at_launch = true
 

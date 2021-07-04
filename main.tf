@@ -35,15 +35,18 @@ module "ec2-public" {
 }
 
 module "auto_scale_module" {
-  source                    = "./auto_scale_group"
-  autoscaling_group_name    = var.autoscaling_group_name
-  load_balancers            = var.load_balancers
-  max_size_group            = var.max_size_group
-  min_size_group            = var.min_size_group
-  health_check_grace_period = var.health_check_grace_period
-  health_check_type         = var.health_check_type
-  desired_capacity          = var.desired_capacity
-  force_delete              = var.force_delete
+  source                 = "./auto_scale_group"
+  env_code               = var.env_code
+  ec2_instance_type      = var.ec2_instance_type
+  ec2_keypair            = var.ec2_keypair
+  autoscaling_group_name = var.autoscaling_group_name
+  security_groups        = module.ec2-public.security_groups
+  vpc_private_subnet_id  = module.vpc_networking.private_subnets[0].id
+  max_size_group         = var.max_size_group
+  min_size_group         = var.min_size_group
+  load_balancers         = var.load_balancers
+  force_delete           = var.force_delete
+  propagate_at_launch    = var.propagate_at_launch
 }
 
 

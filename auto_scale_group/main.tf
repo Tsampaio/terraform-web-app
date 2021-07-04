@@ -1,38 +1,46 @@
-resource "aws_placement_group" "placement_group" {
-  name     = "test"
-  strategy = "cluster"
+data "aws_ami" "ubuntu_latest" {
+  name_regex  = "amzn2-ami-hvm-2\\.0\\.20210525\\.0-x86_64-gp2"
+  owners      = ["amazon"]
+  most_recent = true
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+}
+
+resource "aws_launch_configuration" "aws_launch_config" {
+  name_prefix     = "${var.env_code}-launchconfig"
+  image_id        = data.aws_ami.ubuntu_latest.id
+  instance_type   = var.ec2_instance_type
+  key_name        = aws_key_pair[var.ec2_keypair].key_name
+  security_groups = var.security_groups
+  user_data       = <<-EOF
+              #!/bin/bash
+              yum update -y
+              yum install -y httpd git
+              git clone https://github.com/gabrielecirulli/2048
+              cp -R 2048/* /var/www/html/
+              systemctl start httpd
+              systemctl enable httpd
+              EOF
 }
 
 resource "aws_autoscaling_group" "autoscaling_group" {
-  name                      = var.autoscaling_group_name
-  load_balancers            = var.load_balancers
-  max_size                  = var.max_size_group
-  min_size                  = var.min_size_group
-  health_check_grace_period = var.health_check_grace_period
-  health_check_type         = var.health_check_type
-  desired_capacity          = var.desired_capacity
-  force_delete              = var.force_delete
-  placement_group           = aws_placement_group.placement_group.id
-  # launch_configuration      = aws_launch_configuration.foobar.name
-  vpc_zone_identifier = [var.subnet_id]
+  name                 = var.autoscaling_group_name
+  vpc_zone_identifier  = var.vpc_private_subnet_id
+  launch_configuration = aws_launch_configuration.aws_launch_config.name
 
-  # initial_lifecycle_hook {
-  #   name                 = "foobar"
-  #   default_result       = "CONTINUE"
-  #   heartbeat_timeout    = 2000
-  #   lifecycle_transition = "autoscaling:EC2_INSTANCE_LAUNCHING"
 
-  # notification_metadata = <<EOF
-  #       {
-  #         "foo": "bar"
-  #       }
-  #       EOF
-
-  # notification_target_arn = "arn:aws:sqs:us-east-1:444455556666:queue1*"
-  # role_arn                = "arn:aws:iam::123456789012:role/S3Access"
-  # }
+  max_size       = var.max_size_group
+  min_size       = var.min_size_group
+  load_balancers = var.load_balancers
+  force_delete   = var.force_delete
 
   tag {
-    Name = var.autoscaling_group_name
+    key                 = var.autoscaling_group_name
+    propagate_at_launch = var.propagate_at_launch
+    value               = var.auto_scale_group_instance
   }
 }

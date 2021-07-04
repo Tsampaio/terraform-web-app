@@ -1,15 +1,21 @@
+variable "env_code" {}
+
+variable "ec2_instance_type" {}
+
+variable "ec2_keypair" {}
+
 variable "autoscaling_group_name" {}
 
-variable "load_balancers" {}
+variable "vpc_private_subnet_id" {}
 
 variable "max_size_group" {}
 
 variable "min_size_group" {}
 
-variable "health_check_grace_period" {}
-
-variable "health_check_type" {}
-
-variable "desired_capacity" {}
+variable "load_balancers" {}
 
 variable "force_delete" {}
+
+variable "propagate_at_launch" {}
+
+variable security_groups {}
