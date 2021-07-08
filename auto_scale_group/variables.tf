@@ -18,4 +18,8 @@ variable "force_delete" {}
 
 variable "propagate_at_launch" {}
 
-variable security_groups {}
+variable "security_groups" {}
+
+variable "auto_scale_group_instance" {}
+
+variable "aws_ami_id" {}

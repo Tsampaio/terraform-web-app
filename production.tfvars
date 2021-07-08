@@ -20,6 +20,8 @@ env_code = "prod"
 
 autoscaling_group_name = "apache_web_app_autoscaling_group"
 
+auto_scale_group_instance = "ec2 instance"
+
 min_size_group = 1
 
 max_size_group = 2

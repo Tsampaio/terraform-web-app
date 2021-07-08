@@ -16,6 +16,8 @@ variable "env_code" {}
 
 variable "autoscaling_group_name" {}
 
+variable "auto_scale_group_instance" {}
+
 variable "max_size_group" {}
 
 variable "min_size_group" {}
