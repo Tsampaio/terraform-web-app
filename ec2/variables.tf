@@ -13,3 +13,7 @@ variable "instance_name" {}
 variable "associate_public_ip_address" {}
 
 variable "vpc_id" {}
+
+variable "security_groups" {}
+
+variable "aws_ami_id" {}
